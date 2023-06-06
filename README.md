@@ -2,8 +2,6 @@
 
 ## requisitos previos
 
-- .NET 6 SDK (o más reciente).
-- Sql Server (Para la rama main).
 - Docker (Opcional para la rama task/Docker).
 
 ## Clonar repositorio:
