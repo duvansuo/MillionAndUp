@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  millionandup.api:
+    image: ${DOCKER_REGISTRY-}millionandupapi
+    container_name: api
+    build:
+      context: .
+      dockerfile: MillionAndUp.Api/Dockerfile
+    depends_on:
+      - sqlServer
+  sqlServer:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: sqlServer
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=PasswordO1.
