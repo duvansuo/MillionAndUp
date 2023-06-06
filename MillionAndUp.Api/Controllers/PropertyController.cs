@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MillionAndUp.Api.Application.Models;
+using MillionAndUp.Api.Application.Validators;
 using MillionAndUp.Domain;
 using MillionAndUp.Infraestructure.Interfaces;
 using Newtonsoft.Json;
 using System;
+using System.Drawing;
 
 namespace MillionAndUp.Api.Controllers
 {
@@ -15,12 +17,14 @@ namespace MillionAndUp.Api.Controllers
     [ApiController]
     public class PropertyController : ControllerBase
     {
-        private readonly IServiceProperty propertyService;
+        private readonly IServiceProperty<Property> propertyService;
         private readonly IMapper mapper;
-        public PropertyController(IServiceProperty propertyService, IMapper mapper)
+        private readonly Validators validators;
+        public PropertyController(IServiceProperty<Property> propertyService, IMapper mapper, Validators validators)
         {
             this.propertyService = propertyService;
             this.mapper = mapper;
+            this.validators = validators;
         }
 
         [HttpPost]
@@ -59,7 +63,7 @@ namespace MillionAndUp.Api.Controllers
             {
                 Property propetry = mapper.Map<Property>(propertyEditModel);
                 var result = await propertyService.Update(propetry);
-                return Ok(new { Status = result }); 
+                return Ok(new { Status = result });
             }
             catch (Exception ex)
             {
@@ -95,19 +99,21 @@ namespace MillionAndUp.Api.Controllers
         //        return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(ex));
         //    }
         //}
-        //[HttpGet]
-        //public async Task<IActionResult> GetPropertyFilters([FromQuery]string name, string year, string priceRange )
-        //{
-        //    try
-        //    {
-        //        var result = await propertyService.GetId(id);
-        //        PropertyModel propetry = mapper.Map<PropertyModel>(result);
-        //        return Ok(propetry);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(ex));
-        //    }
-        //}
+        [HttpGet]
+        [Route("filters/{page}/{size}")]
+        public async Task<IActionResult> GetPropertyFilters([FromQuery] int? year, [FromQuery] string? priceRange, int page, int size)
+        {
+            try
+            {
+                var filters = validators.ValidateFilter(year, priceRange, page, size);
+                var result = await propertyService.GetFilters(filters);
+                List<PropertyModel> properties = mapper.Map<List<PropertyModel>>(result);
+                return Ok(properties);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(ex));
+            }
+        }
     }
 }

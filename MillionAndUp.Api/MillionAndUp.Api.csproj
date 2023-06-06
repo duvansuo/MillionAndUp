@@ -24,8 +24,4 @@
     <ProjectReference Include="..\MillionAndUp.Infraestructure\MillionAndUp.Infraestructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>

@@ -14,6 +14,6 @@ namespace MillionAndUp.Api.Application.Models
         public short? Year { get; set; }
         public TypeProperty? TypeProperty { get; set; }
         public int IdOwner { get; set; }
-        public List<PropertyImageCreateModel>? PropertyImages { get; set; }
+        public List<PropertyImageCreateModel>? PropertyImages { get; set; } = new();
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MillionAndUp.Domain.Interfaces.Repository
 {
-    public interface IRepository<TEntity, TEntityId>
+    public interface IRepositoryBase<TEntity, TEntityId>
         : IAdd<TEntity>, IUpdate<TEntity>, IGet<TEntity, TEntityId>, ITransaction
     {
     }

@@ -7,6 +7,7 @@ using MillionAndUp.Infraestructure.Data.Repositories;
 using MillionAndUp.Infraestructure.Interfaces;
 using MillionAndUp.Infraestructure.Services;
 using AutoMapper;
+using MillionAndUp.Api.Application.Validators;
 
 namespace MillionAndUp.Api.IoC
 {
@@ -15,28 +16,15 @@ namespace MillionAndUp.Api.IoC
         public static IServiceCollection AddServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddDbContext<Context>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
-            serviceCollection.AddTransient<IRepository<Property, int>, PropertyRepository>();
-            serviceCollection.AddTransient<IRepository<Owner, int>, OwnerRepository>();
+            serviceCollection.AddTransient<IRepositoryProperty<Property>, PropertyRepository>();
+            serviceCollection.AddTransient<IRepositoryBase<Owner, int>, OwnerRepository>();
             serviceCollection.AddTransient<IReposityImage<PropertyImage>, PropertyImageRepository>();
-            serviceCollection.AddTransient<IServiceProperty, PropertyService>();
+            serviceCollection.AddTransient<IServiceProperty<Property>, PropertyService>();
             serviceCollection.AddTransient<IServiceImage<PropertyImage>, PropertyImageService>();
-
+            serviceCollection.AddTransient<IServiceImage<PropertyImage>, PropertyImageService>();
+            serviceCollection.AddSingleton<Validators>();
             return serviceCollection;
-        }
-        public static string FirstCharToUpper(this string input) =>
-           input switch
-           {
-               null => throw new ArgumentNullException(nameof(input)),
-               "" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
-               _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1).ToString().ToLower())
-           };
-
-        public static bool IsLabs(this IWebHostEnvironment env)
-        {
-            return env.EnvironmentName.ToLower() == "Development" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "Development";
-        }
-
-
+        }  
 
     }
 }

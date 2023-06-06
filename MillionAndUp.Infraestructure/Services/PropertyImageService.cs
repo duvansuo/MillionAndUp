@@ -13,9 +13,9 @@ namespace MillionAndUp.Infraestructure.Services
     {
 
         private readonly IReposityImage<PropertyImage> repositoryPropertyImage;
-        private readonly IRepository<Property, int> repositoryProperty;
+        private readonly IRepositoryProperty<Property> repositoryProperty;
 
-        public PropertyImageService(IReposityImage<PropertyImage> repositoryPropertyImage, IRepository<Property, int> repositoryProperty)
+        public PropertyImageService(IReposityImage<PropertyImage> repositoryPropertyImage, IRepositoryProperty<Property> repositoryProperty)
         {
             this.repositoryPropertyImage = repositoryPropertyImage;
             this.repositoryProperty = repositoryProperty;
@@ -28,7 +28,7 @@ namespace MillionAndUp.Infraestructure.Services
                 var validateOwner = await repositoryProperty.GetId(propertyImage.IdProperty);
                 if (validateOwner == null) throw new NullReferenceException("Property id does not exist");
                 var result = await repositoryPropertyImage.Add(propertyImage);
-                await repositoryProperty.Save();
+                await repositoryPropertyImage.Save();
                 return result;
             }
             catch (Exception)
@@ -46,7 +46,7 @@ namespace MillionAndUp.Infraestructure.Services
                 if (validateOwner == null) throw new NullReferenceException($"Property id:{item} does not exist");
             }
             await repositoryPropertyImage.AddRangeAsync(propertyImages);
-            await repositoryProperty.Save();
+            await repositoryPropertyImage.Save();
             return true;
         }
     }
