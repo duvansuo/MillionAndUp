@@ -29,7 +29,7 @@ namespace MillionAndUp.Api.Controllers
             {
                 List<PropertyImage> propertyImages = mapper.Map<List<PropertyImage>>(propertyImagesModel);
                 var result = await propertyImageService.AddRangeAsync(propertyImages);
-                return Ok(new { Status = result });
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace MillionAndUp.Api.Controllers
             {
                 PropertyImage propertyImage = mapper.Map<PropertyImage>(propertyImageModel);
                 var result = await propertyImageService.Add(propertyImage);
-                return Ok(new { Status = true, id= result.IdPropertyImage });
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {

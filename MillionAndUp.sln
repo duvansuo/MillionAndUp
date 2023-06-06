@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillionAndUp.Infraestructur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillionAndUp.Infraestructure.Data", "MillionAndUp.Infraestructure.Data\MillionAndUp.Infraestructure.Data.csproj", "{F078CE48-7B10-49BB-A505-CFE0FBC846EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillionAndUp.Api", "MillionAndUp.Api\MillionAndUp.Api.csproj", "{EDED5519-3B97-492D-9F5D-3B926C9BCB14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillionAndUp.Api", "MillionAndUp.Api\MillionAndUp.Api.csproj", "{EDED5519-3B97-492D-9F5D-3B926C9BCB14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillionAndUp.Api.Test", "MillionAndUp.Api.Test\MillionAndUp.Api.Test.csproj", "{BE11D763-CF65-45F6-9E8A-AAEA88EF0D25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EDED5519-3B97-492D-9F5D-3B926C9BCB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDED5519-3B97-492D-9F5D-3B926C9BCB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDED5519-3B97-492D-9F5D-3B926C9BCB14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE11D763-CF65-45F6-9E8A-AAEA88EF0D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE11D763-CF65-45F6-9E8A-AAEA88EF0D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE11D763-CF65-45F6-9E8A-AAEA88EF0D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE11D763-CF65-45F6-9E8A-AAEA88EF0D25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

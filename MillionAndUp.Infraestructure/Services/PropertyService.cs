@@ -1,17 +1,18 @@
 ﻿using MillionAndUp.Domain;
 using MillionAndUp.Domain.Interfaces.Repository;
 using MillionAndUp.Infraestructure.Interfaces;
+using System.Diagnostics;
 
 namespace MillionAndUp.Infraestructure.Services
 {
-    public class PropertyService : IServiceProperty
+    public class PropertyService : IServiceProperty<Property>
     {
 
-        private readonly IRepository<Property, int> repositoryProperty;
-        private readonly IRepository<Owner, int> repositoryOwner;
+        private readonly IRepositoryProperty<Property> repositoryProperty;
+        private readonly IRepositoryBase<Owner, int> repositoryOwner;
         private readonly IReposityImage<PropertyImage> repositoryPropertyImage;
 
-        public PropertyService(IRepository<Property, int> repositoryProperty, IRepository<Owner, int> repositoryOwner,
+        public PropertyService(IRepositoryProperty<Property> repositoryProperty, IRepositoryBase<Owner, int> repositoryOwner,
                                IReposityImage<PropertyImage> repositoryPropertyImage)
         {
             this.repositoryProperty = repositoryProperty;
@@ -92,9 +93,22 @@ namespace MillionAndUp.Infraestructure.Services
                 var validateProperty = await repositoryProperty.GetId(id);
                 if (validateProperty == null) throw new NullReferenceException("Property id does not exist.");
                 validateProperty.Price = Price;
-                repositoryProperty.Update(validateProperty);
+                await repositoryProperty.Update(validateProperty);
                 var result = await repositoryProperty.Save();
                 return result > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<List<Property>> GetFilters(FiltersModel filtersModel)
+        {
+            try
+            {
+                var properties= await repositoryProperty.GetFilters(filtersModel);
+                await repositoryProperty.Save();
+                return properties;
             }
             catch (Exception)
             {
@@ -131,5 +145,6 @@ namespace MillionAndUp.Infraestructure.Services
             }
 
         }
+
     }
 }

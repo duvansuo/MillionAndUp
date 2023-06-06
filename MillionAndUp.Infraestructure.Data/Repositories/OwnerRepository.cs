@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MillionAndUp.Infraestructure.Data.Repositories
 {
-    public class OwnerRepository : IRepository<Owner, int>
+    public class OwnerRepository : IRepositoryBase<Owner, int>
     {
         private readonly Context context;
         public OwnerRepository(Context context)

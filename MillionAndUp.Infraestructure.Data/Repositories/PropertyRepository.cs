@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillionAndUp.Domain;
 using MillionAndUp.Domain.Interfaces.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MillionAndUp.Infraestructure.Data.Repositories
 {
-    public class PropertyRepository : IRepository<Property, int>
+    public class PropertyRepository : IRepositoryProperty<Property>
     {
         private readonly Context context;
         public PropertyRepository(Context context)
@@ -78,5 +73,32 @@ namespace MillionAndUp.Infraestructure.Data.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Property>> GetFilters(FiltersModel filtersModel)
+        {
+            try
+            {
+                var query = context.Properties.AsQueryable();
+                query = Filters(query, filtersModel);        
+                return await query.OrderBy(x => x.IdProperty).Skip((filtersModel.Page - 1) * filtersModel.Size).Take(filtersModel.Size).ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private static IQueryable<Property> Filters(IQueryable<Property> query, FiltersModel filtersModel)
+        {
+            if (filtersModel.Year.HasValue)
+            {
+                query = query.Where(x => x.Year == filtersModel.Year);
+            }
+            if (filtersModel.PriceMax.HasValue && filtersModel.PriceMin.HasValue)
+            {
+                query = query.Where(x => x.Price >= filtersModel.PriceMin && x.Price <= filtersModel.PriceMax);
+            }
+            return query;
+        }
+      
     }
 }
